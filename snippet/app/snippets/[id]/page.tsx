@@ -7,13 +7,14 @@ interface ShowSnippetPageProps {
   };
 }
 
-export async function ShowSnippetPage(props: ShowSnippetPageProps) {
-  const snippet = await db.snippet.findFirst({
-    where: { id: Number.parseInt(props.params.id) },
+export default async function ShowSnippetPage(props: ShowSnippetPageProps) {
+  console.log(props.params.id, "---------------------");
+  const snippet = await db.snippet.findUnique({
+    where: { id: Number.parseInt((await props.params).id) },
   });
 
   if (!snippet) {
-    return notFound;
+    return notFound();
   }
 
   return <div> {snippet.title} </div>;
