@@ -43,8 +43,8 @@ export default function CreateSnippetPage() {
           </label>
 
           <textarea
-            name="snippet"
-            id="snippet"
+            name="code"
+            id="code"
             className="border rounded p-2 w-full"
           />
         </div>
