@@ -1,6 +1,7 @@
 import db from "@/db";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import * as actions from "@/actions";
 
 export interface ShowSnippetPageProps {
   params: {
@@ -10,13 +11,16 @@ export interface ShowSnippetPageProps {
 
 export default async function ShowSnippetPage(props: ShowSnippetPageProps) {
   //   await new Promise((r) => setTimeout(r, 2000));
+  const id = Number.parseInt((await props.params).id);
   const snippet = await db.snippet.findUnique({
-    where: { id: Number.parseInt((await props.params).id) },
+    where: { id },
   });
 
   if (!snippet) {
     return notFound();
   }
+
+  const deleteSnippetAction = actions.deleteSnippet.bind(null, id);
 
   return (
     <div>
@@ -31,10 +35,9 @@ export default async function ShowSnippetPage(props: ShowSnippetPageProps) {
             {" "}
             Edit{" "}
           </Link>
-          <Link href={`/handle Delete`} className="p-2 border rounded">
-            {" "}
-            Delete{" "}
-          </Link>
+          <form action={deleteSnippetAction}>
+            <button className="p-2 border rounded">Delete</button>
+          </form>
         </div>
       </div>
 
