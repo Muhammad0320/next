@@ -1,6 +1,9 @@
 import db from "@/db";
 import Link from "next/link";
 
+// Changing the route to a dynamic route we can also use: export const revalidate = 0
+// export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const snippets = await db.snippet.findMany();
 
