@@ -1,9 +1,15 @@
-import { Button } from "@nextui-org/react";
+import * as actions from "@/actions";
 
 export default function Home() {
   return (
     <div>
-      <Button>Say: Allahu Albar!!</Button>
+      <form action={actions.signin}>
+        <button type="submit"> Sign In </button>
+      </form>
+
+      <form action={actions.signout}>
+        <button type="submit"> Sign In </button>
+      </form>
     </div>
   );
 }
