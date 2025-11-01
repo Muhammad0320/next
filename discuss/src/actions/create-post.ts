@@ -1,3 +1,5 @@
 "use server";
 
-export const createPost = async () => {};
+export const createPost = async () => {
+  // Todo: Revalidate the topic show page
+};
