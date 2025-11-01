@@ -1,11 +1,7 @@
 "use server";
 
-import { signIn, signOut } from "@/auth";
-
-export const signin = () => {
-  return signIn("github");
-};
-
-export const signout = () => {
-  return signOut();
-};
+export { signin } from "./sign-in";
+export { signout } from "./sign-out";
+export { createComment } from "./create-comment";
+export { createPost } from "./create-post";
+export { createTopic } from "./create-topic";
