@@ -1,62 +1,14 @@
-import { auth } from "@/auth";
 import {
-  Avatar,
-  Button,
   Input,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
 } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
-import * as actions from "@/actions";
+import HeaderAuth from "./headerAuth";
 
 export default async function Header() {
-  const session = await auth();
-
-  let authContent: React.ReactNode;
-
-  if (session?.user) {
-    authContent = (
-      <Popover placement="left">
-        <PopoverTrigger>
-          <Avatar src={session?.user.image || ""} />;
-        </PopoverTrigger>
-
-        <PopoverContent>
-          <div className="p-4">
-            <form action={actions.signout}>
-              <Button type="submit"> Sign Out </Button>
-            </form>
-          </div>
-        </PopoverContent>
-      </Popover>
-    );
-  } else {
-    <>
-      <NavbarItem>
-        <form action={actions.signin}>
-          <Button type="submit" color="secondary" variant="bordered">
-            {" "}
-            Sign In{" "}
-          </Button>
-        </form>
-      </NavbarItem>
-      <NavbarItem>
-        <form action={actions.signin}>
-          <Button type="submit" color="primary" variant="flat">
-            {" "}
-            Sign Up{" "}
-          </Button>
-        </form>
-      </NavbarItem>
-    </>;
-  }
-
   return (
     <Navbar className="shadow mb-6">
       <NavbarBrand>
@@ -72,7 +24,9 @@ export default async function Header() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end">{authContent}</NavbarContent>
+      <NavbarContent justify="end">
+        <HeaderAuth />
+      </NavbarContent>
     </Navbar>
   );
 }
