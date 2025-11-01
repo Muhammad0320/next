@@ -29,7 +29,9 @@ export default async function Header() {
 
         <PopoverContent>
           <div className="p-4">
-            <form action={actions.signout}></form>
+            <form action={actions.signout}>
+              <Button type="submit"> Sign Out </Button>
+            </form>
           </div>
         </PopoverContent>
       </Popover>
@@ -37,16 +39,20 @@ export default async function Header() {
   } else {
     <>
       <NavbarItem>
-        <Button type="submit" color="secondary" variant="bordered">
-          {" "}
-          Sign In{" "}
-        </Button>
+        <form action={actions.signin}>
+          <Button type="submit" color="secondary" variant="bordered">
+            {" "}
+            Sign In{" "}
+          </Button>
+        </form>
       </NavbarItem>
       <NavbarItem>
-        <Button type="submit" color="primary" variant="flat">
-          {" "}
-          Sign up{" "}
-        </Button>
+        <form action={actions.signin}>
+          <Button type="submit" color="primary" variant="flat">
+            {" "}
+            Sign Up{" "}
+          </Button>
+        </form>
       </NavbarItem>
     </>;
   }
