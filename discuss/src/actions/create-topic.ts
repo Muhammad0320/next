@@ -1,11 +1,18 @@
 "use server";
 
 import { z } from "zod";
+import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import paths from "@/path";
+import { Topic } from "@/app/generated/prisma/client";
+import db from "@/db";
 
 interface CreateTopicFormState {
   errors: {
     name?: string[];
     description?: string[];
+    _form?: string[];
   };
 }
 
@@ -32,7 +39,38 @@ export const createTopic = async (
     };
   }
 
-  return { errors: {} };
+  /////////////// NOTE: commented because the nextAuth doensn't return anything
+  //   const session = await auth()
 
-  // TODO: revalidate the home page
+  // if(!session !! !session.user) {
+  //   return  {
+  //     errors: {
+  //       _form: ["You are nott allowed to do this."]
+  //     }
+  //   }
+  // }
+
+  let topic: Topic;
+  try {
+    topic = await db.topic.create({
+      data: { slug: result.data.name, description: result.data.description },
+    });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return {
+        errors: {
+          _form: [err.message],
+        },
+      };
+    } else {
+      return {
+        errors: {
+          _form: ["Something went wrong!"],
+        },
+      };
+    }
+  }
+
+  revalidatePath("/");
+  redirect(paths.topicShow(topic.slug));
 };
