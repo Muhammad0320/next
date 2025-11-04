@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/auth";
 import db from "@/db";
 import z from "zod";
 
@@ -21,16 +22,15 @@ export const createPost = async (
   formStatus: CreatePostFormStatus,
   formData: FormData
 ): Promise<CreatePostFormStatus> => {
-  /////////////// NOTE: commented because the nextAuth doensn't return anything
-  //   const session = await auth()
+  const session = await auth();
 
-  // if(!session !! !session.user) {
-  //   return  {
-  //     errors: {
-  //       _form: ["You are nott allowed to do this."]
-  //     }
-  //   }
-  // }
+  if (!session || !session.user) {
+    return {
+      errors: {
+        _form: ["You are nott allowed to do this."],
+      },
+    };
+  }
 
   const topic = await db.topic.findUnique({
     where: { slug },

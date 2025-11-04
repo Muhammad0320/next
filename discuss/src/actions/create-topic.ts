@@ -39,16 +39,14 @@ export const createTopic = async (
     };
   }
 
-  /////////////// NOTE: commented because the nextAuth doensn't return anything
-  //   const session = await auth()
-
-  // if(!session !! !session.user) {
-  //   return  {
-  //     errors: {
-  //       _form: ["You are nott allowed to do this."]
-  //     }
-  //   }
-  // }
+  const session = await auth();
+  if (!session || !session.user) {
+    return {
+      errors: {
+        _form: ["You are nott allowed to do this."],
+      },
+    };
+  }
 
   let topic: Topic;
   try {
