@@ -1,7 +1,11 @@
 "use server";
 
+import { Post } from "@/app/generated/prisma/client";
 import { auth } from "@/auth";
 import db from "@/db";
+import paths from "@/path";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import z from "zod";
 
 interface CreatePostFormStatus {
@@ -56,9 +60,32 @@ export const createPost = async (
     };
   }
 
-  return {
-    errors: {},
-  };
+  let post: Post;
+  try {
+    post = await db.post.create({
+      data: {
+        title: results.data.title,
+        content: results.data.content,
+        topicId: topic.id,
+        userId: session.user.id,
+      },
+    });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return {
+        errors: {
+          _form: [err.message],
+        },
+      };
+    } else {
+      return {
+        errors: {
+          _form: ["Cannot create post"],
+        },
+      };
+    }
+  }
 
-  // Todo: Revalidate the topic show page
+  revalidatePath(paths.topicShow(slug));
+  redirect(paths.postShow(slug, post.id));
 };
