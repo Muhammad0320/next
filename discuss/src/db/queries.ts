@@ -1,9 +1,9 @@
 import { Post } from "@/app/generated/prisma/client";
 import db from "@/db";
 
-type PostWithData = Post & {
+export type PostWithData = Post & {
   topic: { slug: string };
-  _count: { comment: number };
+  _count: { comments: number };
   user: { name: string | null };
 };
 
