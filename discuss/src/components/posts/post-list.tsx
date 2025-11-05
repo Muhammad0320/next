@@ -1,6 +1,6 @@
 import paths from "@/path";
 import Link from "next/link";
-import { PostWithData } from "../../db/queries";
+import { PostWithData } from "../../db/posts/queries";
 
 interface PostListProps {
   fetchData: () => Promise<PostWithData[]>;
